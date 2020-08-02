@@ -1,22 +1,38 @@
 package com.casino.games;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 class SlotMachine {
     // FIELDS
+    private static Collection<Reel> playline;
+    private static int coinTray = 0;
+    private static int credits = 0;
+
     private int bet = 0;
     private int insertCoin = 0;
-    private static int credits = 0;
     private int winnerPaid = 0;
     private boolean cashOut = false;
-    private static int coinTray = 0;
-    private
 
     //BUSINESS METHODS
-    public List<Reel> spinReel() {
-      List<Reel> result = null;
+    public Collection<Reel> spinReel() {
+        //  create a list that will be the playline
+      playline = new ArrayList<>();
+      //  instantiate the amount of Reels you want for the playline
+      Reel reel1 = new Reel();
+      Reel reel2 = new Reel();
+      Reel reel3 = new Reel();
+      //  change the symbol on each reel to some random Symbol
+      reel1.getRandom();
+      reel2.getRandom();
+      reel3.getRandom();
+      // place each reel in to the playline list
+      playline.add(reel1);
+      playline.add(reel2);
+      playline.add(reel3);
 
-      return result;
+      return playline;
     };
 
     // ACCESSOR METHODS
