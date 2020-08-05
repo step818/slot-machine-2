@@ -14,7 +14,7 @@ class Player {
         // Credits are defaulted to 100
         // Prompt the user for a limited bet amount
         String keepPlaying = "Y";
-        while(game.getCredits() > 0 && !keepPlaying.equals("e") || !keepPlaying.equals("E")) {
+        while(game.getCredits() > 0  && !keepPlaying.equals("E")) {
             System.out.println("Enter bet. Then hit Enter to pull crank.");
 
             int bet = scan.nextInt();
@@ -24,8 +24,15 @@ class Player {
 
             System.out.println("You bet: " + bet + " credits...");
             System.out.println("Reels are spinning...");
+            for (int i = 0; i < 10; i++) {
+                System.out.print("* ");
+            }
             TimeUnit.SECONDS.sleep(2);
-            System.out.println("*************" + currentSpin + "*************");
+            for (Symbol sym: currentSpin) {
+                System.out.print(sym + " ");
+                TimeUnit.MILLISECONDS.sleep(750);
+            }
+            System.out.println();
             TimeUnit.SECONDS.sleep(1);
             System.out.println("The currentCreditsWon: " + SlotMachine.getCurrentCreditsWon());
             TimeUnit.MILLISECONDS.sleep(500);
