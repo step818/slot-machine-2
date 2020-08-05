@@ -17,25 +17,30 @@ class Player {
         System.out.println("Welcome to the Slot Machine! You have 100 credits.");
         // Credits are defaulted to 100
         // Prompt the user for a limited bet amount
-        System.out.println("Enter bet. Then hit Enter to pull crank.");
+        String keepPlaying = "Y";
+        while(game.getCredits() > 0 && keepPlaying.equals("Y") || keepPlaying.equals("y")) {
+            System.out.println("Enter bet. Then hit Enter to pull crank.");
 
-        int bet = scan.nextInt();
-        // Spin the reels
-        ArrayList<Symbol> currentSpin = game.spinReel(bet);
+            int bet = scan.nextInt();
 
-        System.out.println("You bet: " + bet + " credits...");
-        System.out.println("Reels are spinning...");;
+            // Spin the reels
+            ArrayList<Symbol> currentSpin = game.spinReel(bet);
 
-        System.out.println("*************" + currentSpin + "*************");
-        System.out.println("The currentCreditsWon: " + SlotMachine.getCurrentCreditsWon());
-        System.out.println(game.toString());
+            System.out.println("You bet: " + bet + " credits...");
+            System.out.println("Reels are spinning...");;
 
-        System.out.println("Player's total credits: " + game.getCredits());
-
-
-
-
-
+            System.out.println("*************" + currentSpin + "*************");
+            System.out.println("The currentCreditsWon: " + SlotMachine.getCurrentCreditsWon());
+            System.out.println(game.toString());
+            System.out.println("Player's total credits: " + game.getCredits());
+            System.out.println("Continue? (Y/N)");
+            keepPlaying = scan.next();
+        }
+        if(game.getCredits() == 0) {
+            System.out.println("You lost all your credits. GAME OVERRRRRRRRRRRR!!!!!!!!!!!!");
+        }
+        System.out.println("Player has ended the game. Good Bye!");
+        scan.close();
         //  After a few seconds of the reel spinning
         //  Display the three slots on the console
         //  After one second, Announce to the player
