@@ -1,39 +1,78 @@
 package com.casino.games;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
-class SlotMachine {
+public class SlotMachine {
     // FIELDS
-    private static Collection<Reel> playline;
+    private static final int MAX_BET = 20;
+    private static final int MIN_BET = 1;
+    private static ArrayList<Symbol> playline;
+    private static int currentCreditsWon = 0;
     private static int coinTray = 0;
-    private static int credits = 0;
+    private int credits = 100;
 
     private int bet = 0;
     private int insertCoin = 0;
-    private int winnerPaid = 0;
     private boolean cashOut = false;
 
     //BUSINESS METHODS
-    public Collection<Reel> spinReel() {
+    public ArrayList<Symbol> spinReel(int bet) {
         //  create a list that will be the playline
-      playline = new ArrayList<>();
-      //  instantiate the amount of Reels you want for the playline
-      Reel reel1 = new Reel();
-      Reel reel2 = new Reel();
-      Reel reel3 = new Reel();
-      //  change the symbol on each reel to some random Symbol
-      reel1.getRandom();
-      reel2.getRandom();
-      reel3.getRandom();
-      // place each reel in to the playline list
-      playline.add(reel1);
-      playline.add(reel2);
-      playline.add(reel3);
+        playline = new ArrayList<>();
+        if (isValidBet(bet)) {
+            setBet(bet);
+            //  instantiate the amount of Reels you want for the playline
+            Reel display = new Reel();
+            //TODO: Refactor Reel by creating 3 reels that make up 1 display instead of
+            // creating one display with 3 slots/"reels" with repeating code
+//            Reel reel2 = new Reel();
+//            Reel reel3 = new Reel();
+            //  change the symbol on each reel to some random Symbol
+            Symbol symbol1 = display.assignSymbol1();
+            Symbol symbol2 = display.assignSymbol2();
+            Symbol symbol3 = display.assignSymbol3();
+//            reel2.getRandom();
+//            reel3.getRandom();
+            // place each reel in to the playline list
+            playline.add(symbol1);
+            playline.add(symbol2);
+            playline.add(symbol3);
+            // Compare the symbols and calculate the Earnings
+            setCurrentCreditsWon(checkWinnings(playline));
+        }
+        return playline;
+    }
 
-      return playline;
-    };
+    public int checkWinnings(ArrayList<Symbol> playline) {
+        int currentBet = getBet();
+        // Retrieve the playline result and check to see if the player has won
+        currentCreditsWon  = 0;
+        // The playline ArrayList looks like: { "&", "@", "?" }
+        if (playline.get(0) == playline.get(1) && playline.get(0) == playline.get(2)) {
+//            three are equal pay me
+//              compareSymbol(playline)
+              //Pay appropriately
+            currentCreditsWon = 50;
+
+        } else if(playline.get(0) == playline.get(1) ||
+                playline.get(1) == playline.get(2) ||
+                playline.get(0) == playline.get(2)){
+//            two are equals
+//            currentCreditsWon = getWinnings(playline);
+            currentCreditsWon = 10;
+        }
+        setCredits((credits + currentCreditsWon - bet));
+        return currentCreditsWon;
+    }
+
+    public boolean isValidBet(int bet) {
+        if (bet >= MIN_BET && bet <= MAX_BET) {
+            return true;
+        } else {
+            System.out.println("Invalid bet: " + bet + ". Bet must be between " + MIN_BET + " and " + MAX_BET + ".");
+            return false;
+        }
+    }
 
     // ACCESSOR METHODS
     public int getBet() {
@@ -52,20 +91,20 @@ class SlotMachine {
         this.insertCoin = insertCoin;
     }
 
-    public static int getCredits() {
+    public int getCredits() {
         return credits;
     }
 
-    public static void setCredits(int credits) {
-        SlotMachine.credits = credits;
+    public void setCredits(int credits) {
+        this.credits = credits;
     }
 
-    public int getWinnerPaid() {
-        return winnerPaid;
+    public static int getCurrentCreditsWon() {
+        return currentCreditsWon;
     }
 
-    public void setWinnerPaid(int winnerPaid) {
-        this.winnerPaid = winnerPaid;
+    public static void setCurrentCreditsWon(int currentCreditsWon) {
+        SlotMachine.currentCreditsWon = currentCreditsWon;
     }
 
     public boolean isCashOut() {
@@ -89,7 +128,7 @@ class SlotMachine {
         return "SlotMachine{" +
                 "bet=(current inserted amount)= " + bet +
                 ", insertCoin=(has user inserted a coin)= " + insertCoin +
-                ", winnerPaid=(the current round's winnings)= " + winnerPaid +
+                ", currentCreditsWon=(the current round's winnings)= " + currentCreditsWon +
                 ", cashOut=(has user requested to withdraw the coinTray)= " + cashOut +
                 '}';
     }
