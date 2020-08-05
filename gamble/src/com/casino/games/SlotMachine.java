@@ -78,17 +78,16 @@ public class SlotMachine {
         // Prompt the user for a limited bet amount
         String keepPlaying = "Y";
         while(this.getCredits() > 0  && !keepPlaying.equals("E")) {
-            System.out.println("Enter bet. Then hit Enter to pull crank.");
-
+            System.out.println("Enter 'bet' between (1-20). Then hit Enter to pull crank.");
+            // scan bet from player
             int bet = scan.nextInt();
-
             // Spin the reels
             ArrayList<Symbol> currentSpin = this.spinReel(bet);
 
             System.out.println("You bet: " + bet + " credits...");
             System.out.println("Reels are spinning...");
-            for (int i = 0; i < 10; i++) {
-                System.out.print("* ");
+            for (int i = 0; i < 5; i++) {
+                System.out.print(" ");
             }
             TimeUnit.SECONDS.sleep(2);
             for (Symbol sym: currentSpin) {
