@@ -4,7 +4,7 @@ package com.casino.games;
  * The Java Math class will be utilized within Reel for its valuable 'random()' method.
  */
 
-class Reel extends SlotMachine { //
+class Reel extends SlotMachine {
 
     // 'slotNumber' holds the value of the generated number upon runtime.
     // This variable is generated using Java Math's 'random()' method. By default, the 'random()' method is calculated via double.
@@ -16,21 +16,6 @@ class Reel extends SlotMachine { //
 
     // This method takes a randomly generated number and assigns an Enum symbol to it.
     public Symbol assignSymbol() {
-
-        /* STATISTICS (possibility of hitting each symbol, and the payout to the player). This is going least payout to greatest payout.
-         * Follow this format: Symbol name --> keyboard symbol --> range --> hit statistic (%) --> payout for two hits --> payout for three hits.
-         * AT        --> @ --> 0-15  --> 16%  --> 100%  --> 200%
-         * HASH      --> # --> 16-30 --> 15%  --> 110%  --> 210%
-         * COLON     --> : --> 31-42 --> 12%  --> 150%  --> 250%
-         * QUESTION  --> ? --> 43-54 --> 12%  --> 150%  --> 250%
-         * PERCENT   --> % --> 55-65 --> 11%  --> 160%  --> 260%
-         * AMPERSAND --> & --> 66-75 --> 10%  --> 170%  --> 270%
-         * BANG      --> ! --> 76-84 --> 9%   --> 180%  --> 280%
-         * SEVEN     --> 7 --> 85-92 --> 8%   --> 190%  --> 290%
-         * GOLD      --> G --> 93-99 --> 7%   --> 200%  --> 300%
-         * DOLLAR    --> $ --> 100   --> 1%   --> 5000% --> 10000%
-         */
-
         if (getSlotNumber() >= 0 && getSlotNumber() <= 15) {
             this.symbol = Symbol.AT;
         } else if (getSlotNumber() >= 16 && getSlotNumber() <= 30) {

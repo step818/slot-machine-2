@@ -1,24 +1,20 @@
 package com.casino.client;
-
 import com.casino.games.SlotMachine;
 import com.casino.games.Symbol;
-
-import java.awt.image.ShortLookupTable;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 class Player {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         SlotMachine game = new SlotMachine();
-
         // Create a scanner
         Scanner scan = new Scanner(System.in);
         System.out.println("Welcome to the Slot Machine! You have 100 credits.");
         // Credits are defaulted to 100
         // Prompt the user for a limited bet amount
         String keepPlaying = "Y";
-        while(game.getCredits() > 0 && keepPlaying.equals("Y") || keepPlaying.equals("y")) {
+        while(game.getCredits() > 0 && !keepPlaying.equals("e") || !keepPlaying.equals("E")) {
             System.out.println("Enter bet. Then hit Enter to pull crank.");
 
             int bet = scan.nextInt();
@@ -27,15 +23,18 @@ class Player {
             ArrayList<Symbol> currentSpin = game.spinReel(bet);
 
             System.out.println("You bet: " + bet + " credits...");
-            System.out.println("Reels are spinning...");;
-
+            System.out.println("Reels are spinning...");
+            TimeUnit.SECONDS.sleep(2);
             System.out.println("*************" + currentSpin + "*************");
+            TimeUnit.SECONDS.sleep(1);
             System.out.println("The currentCreditsWon: " + SlotMachine.getCurrentCreditsWon());
+            TimeUnit.MILLISECONDS.sleep(500);
             System.out.println(game.toString());
             System.out.println("Player's total credits: " + game.getCredits());
-            System.out.println("Continue? (Y/N)");
+            System.out.println("Enter 'E' or 'e' to EXIT, or any button to CONTINUE.");
             keepPlaying = scan.next();
         }
+
         if(game.getCredits() == 0) {
             System.out.println("You lost all your credits. GAME OVERRRRRRRRRRRR!!!!!!!!!!!!");
         }

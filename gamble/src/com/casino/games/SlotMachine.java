@@ -40,7 +40,6 @@ public class SlotMachine {
     }
 
     public int checkWinnings(ArrayList<Symbol> playline) {
-        int currentBet = getBet();
         // Retrieve the playline result and check to see if the player has won
         currentCreditsWon  = 0;
         // The playline ArrayList looks like: { "&", "@", "?" }
@@ -123,9 +122,9 @@ public class SlotMachine {
     public String toString() {
         return "SlotMachine{" +
                 "bet=(current inserted amount)= " + bet +
-                ", \ninsertCoin=(has user inserted a coin)= " + insertCoin +
+                ", insertCoin=(has user inserted a coin)= " + insertCoin +
                 ", \ncurrentCreditsWon=(the current round's winnings)= " + currentCreditsWon +
-                ", \ncashOut=(has user requested to withdraw the coinTray)= " + cashOut +
+                ", cashOut=(has user requested to withdraw the coinTray)= " + cashOut +
                 '}';
     }
 }
