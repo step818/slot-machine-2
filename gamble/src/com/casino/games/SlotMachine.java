@@ -22,17 +22,13 @@ public class SlotMachine {
         if (isValidBet(bet)) {
             setBet(bet);
             //  instantiate the amount of Reels you want for the playline
-            Reel display = new Reel();
-            //TODO: Refactor Reel by creating 3 reels that make up 1 display instead of
-            // creating one display with 3 slots/"reels" with repeating code
-//            Reel reel2 = new Reel();
-//            Reel reel3 = new Reel();
+            Reel reel1 = new Reel();
+            Reel reel2 = new Reel();
+            Reel reel3 = new Reel();
             //  change the symbol on each reel to some random Symbol
-            Symbol symbol1 = display.assignSymbol1();
-            Symbol symbol2 = display.assignSymbol2();
-            Symbol symbol3 = display.assignSymbol3();
-//            reel2.getRandom();
-//            reel3.getRandom();
+            Symbol symbol1 = reel1.assignSymbol();
+            Symbol symbol2 = reel2.assignSymbol();
+            Symbol symbol3 = reel3.assignSymbol();
             // place each reel in to the playline list
             playline.add(symbol1);
             playline.add(symbol2);
@@ -127,9 +123,9 @@ public class SlotMachine {
     public String toString() {
         return "SlotMachine{" +
                 "bet=(current inserted amount)= " + bet +
-                ", insertCoin=(has user inserted a coin)= " + insertCoin +
-                ", currentCreditsWon=(the current round's winnings)= " + currentCreditsWon +
-                ", cashOut=(has user requested to withdraw the coinTray)= " + cashOut +
+                ", \ninsertCoin=(has user inserted a coin)= " + insertCoin +
+                ", \ncurrentCreditsWon=(the current round's winnings)= " + currentCreditsWon +
+                ", \ncashOut=(has user requested to withdraw the coinTray)= " + cashOut +
                 '}';
     }
 }

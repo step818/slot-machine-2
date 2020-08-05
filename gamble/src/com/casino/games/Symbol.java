@@ -1,28 +1,5 @@
 package com.casino.games;
 
-public enum Symbol {
-    AT("@"),
-    HASH("#"),
-    DOLLAR("$"),
-    PERCENT("%"),
-    COLON(":"),
-    AMPERSAND("&"),
-    QUESTION("?"),
-    BANG("!"),
-    GOLD("G"),
-    SEVEN("7");
-
-    private String charAssignment;
-
-    Symbol(String charAssignment) {
-        this.charAssignment = charAssignment;
-    }
-
-    public String toString() {
-        return this.charAssignment;
-    }
-}
-
 /* STATISTICS (possibility of hitting each symbol, and the payout to the player). This is going least payout to greatest payout.
  * Follow this format: Symbol name --> keyboard symbol --> range --> hit statistic (%) --> payout for two hits --> payout for three hits.
  * AT        --> @ --> 0-15  --> 16%  --> 100%  --> 200%
@@ -36,3 +13,27 @@ public enum Symbol {
  * GOLD      --> G --> 93-99 --> 7%   --> 200%  --> 300%
  * DOLLAR    --> $ --> 100   --> 1%   --> 5000% --> 10000%
  */
+
+public enum Symbol { // Each Enum value is assigned to a special character that will display on the console window when the Reel class is utilized.
+    AT("@"),
+    HASH("#"),
+    COLON(":"),
+    QUESTION("?"),
+    PERCENT("%"),
+    AMPERSAND("&"),
+    BANG("!"),
+    SEVEN("7"),
+    GOLD("G"),
+    DOLLAR("$");
+
+    private String charAssignment; // Variable to hold the assigned character.
+
+    Symbol(String charAssignment) { // The enum method that passes in 'charAssignment' and assigns it.
+        this.charAssignment = charAssignment;
+    }
+
+    public String toString() { // This method converts 'charAssignment' to a String (such as @, #, :, etc.) and returns it.
+        return this.charAssignment;
+    }
+
+}
