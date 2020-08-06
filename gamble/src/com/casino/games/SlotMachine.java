@@ -9,19 +9,16 @@ public class SlotMachine {
     private static final int MIN_BET = 1;
     private static ArrayList<Symbol> playline;
     private static int currentCreditsWon = 0;
-    private static int coinTray = 0;
     private int credits = 100;
 
     private int bet = 0;
-    private int insertCoin = 0;
-    private boolean cashOut = false;
 
     //BUSINESS METHODS
-    public ArrayList<Symbol> spinReel(int bet) {
+    public ArrayList<Symbol> spinReel(int mybet) {
         //  create a list that will be the playline
         playline = new ArrayList<>();
-        if (isValidBet(bet)) {
-            setBet(bet);
+        if (isValidBet(mybet)) {
+            setBet(mybet);
             //  instantiate the amount of Reels you want for the playline
             Reel reel1 = new Reel();
             Reel reel2 = new Reel();
@@ -46,23 +43,24 @@ public class SlotMachine {
         // The playline ArrayList looks like: { "&", "@", "?" }
         // if player gets 3 matching
         if (playline.get(0) == playline.get(1) && playline.get(0) == playline.get(2)) {
-//            three are equal pay me
-//              compareSymbol(playline)
-              //Pay appropriately
+            // Print the current winnings and match if 3 match
+            //Pay appropriately
             currentCreditsWon = bet *50;
         } else if(playline.get(0) == playline.get(1) ||  // if player gets any 2 matching
                 playline.get(1) == playline.get(2) ||
                 playline.get(0) == playline.get(2)){
-//            two are equals
-//            currentCreditsWon = getWinnings(playline);
+//            Print the current credits won if two matches
             currentCreditsWon = bet*10;
+        } else {
+            // TODO:
+            // Print the current credits won if no matches
         }
         setCredits((credits + currentCreditsWon - bet));
         return currentCreditsWon;
     }
 
     public boolean isValidBet(int bet) {
-        if (bet >= MIN_BET && bet <= MAX_BET) {
+        if (bet >= MIN_BET && bet <= MAX_BET && bet < credits) {
             return true;
         } else {
             System.out.println("Invalid bet: " + bet + ". Bet must be between " + MIN_BET + " and " + MAX_BET + ".");
@@ -72,54 +70,66 @@ public class SlotMachine {
 
     public void begin() throws InterruptedException {
         Scanner scan = new Scanner(System.in);
-
-        System.out.println("Welcome to the Slot Machine! You have 100 credits.");
         // Credits are defaulted to 100
-        // Prompt the user for a limited bet amount
+//        TODO: Save player name. System.out.println("Please enter your name?");
+//        String playerName = scan.nextLine();
+        // Variable to keep the while loop going
         String keepPlaying = "Y";
         while(this.getCredits() > 0  && !keepPlaying.equals("E")) {
             System.out.println("Enter 'bet' between (1-20). Then hit Enter to pull crank.");
             // scan bet from player
-            int bet = scan.nextInt();
-            // Spin the reels
-            ArrayList<Symbol> currentSpin = this.spinReel(bet);
+//            int bet = scan.nextInt();
+            // Check If the 'bet' is an integer.
+            if(scan.hasNextInt()) {
+                int bet = scan.nextInt();
+                // If not integer, redirect the user to Enter valid bet
+                // Spin the reels
+                if(!isValidBet(bet)) {
+                    // Redirect player to enter bet
+                    this.begin();
+                }
+                // TODO: Fix bug when user input is out of bounds and Exits app
+                ArrayList<Symbol> currentSpin = this.spinReel(bet);
 
-            System.out.println("You bet: " + bet + " credits...");
-            System.out.println("Reels are spinning...");
-            for (int i = 0; i < 5; i++) {
-                System.out.print(" ");
+                System.out.println("You bet: " + bet + " credits...");
+                System.out.println("Reels are spinning...");
+                System.out.print("     ");
+                TimeUnit.SECONDS.sleep(2);
+                for (Symbol sym: currentSpin) {
+                    System.out.print(sym + " ");
+                    TimeUnit.MILLISECONDS.sleep(750);
+                }
+                System.out.println();
+                TimeUnit.SECONDS.sleep(1);
+                // Display the player's current credits, most recent bet, an
+                printWinnings();
+                TimeUnit.MILLISECONDS.sleep(500);
+                System.out.println("Your total coins: " + this.getCredits());
+                TimeUnit.MILLISECONDS.sleep(500);
+                System.out.println("Type any key and hit Enter to continue, or type 'E' to EXIT");
+                keepPlaying = scan.next();
+
+            } else {
+                System.out.println("Invalid input. Only accepts integers between 1 - 20");
+                // Redirect player to enter bet
+                this.begin();
             }
-            TimeUnit.SECONDS.sleep(2);
-            for (Symbol sym: currentSpin) {
-                System.out.print(sym + " ");
-                TimeUnit.MILLISECONDS.sleep(750);
-            }
-            System.out.println();
-            TimeUnit.SECONDS.sleep(1);
-            System.out.println("The currentCreditsWon: " + SlotMachine.getCurrentCreditsWon());
-            TimeUnit.MILLISECONDS.sleep(500);
-            System.out.println(this.toString());
-            System.out.println("Player's total credits: " + this.getCredits());
-            System.out.println("Enter 'E' to EXIT, or any button to CONTINUE.");
-            keepPlaying = scan.next();
         }
-
+        // Game over when player loses all credits
         if(this.getCredits() == 0) {
             System.out.println("You lost all your credits. GAME OVERRRRRRRRRRRR!!!!!!!!!!!!");
         }
         System.out.println("Player has ended the machine. Good Bye!");
         scan.close();
-        //  After a few seconds of the reel spinning
-        //  Display the three slots on the console
-        //  After one second, Announce to the player
-        //  If they have won, and the amount they won
-        // Add the amount to the Credits
-        //  Ask the player if they would like to
-        // place another bet. Repeat
-        //
-        // The machine will End when the player runs out of credits
-        // Prompt the user to play again or Exit.
+    }
+    // TODO: Take number of matches and print matches credits won
+    public void printWinnings() {
+        System.out.println("You won: " + getCurrentCreditsWon() + " coins");
+    }
 
+    public void printDisplay() {
+        System.out.println("(((Possible symbols include :)))\n((( @ = common, # = common,  % = common,)))\n((( & = common, ? = common , : = common" +
+                ",)))\n((( G = rare, 7 = rare, $ = rarest)))");
     }
 
     // ACCESSOR METHODS
@@ -129,14 +139,6 @@ public class SlotMachine {
 
     public void setBet(int bet) {
         this.bet = bet;
-    }
-
-    public int getInsertCoin() {
-        return insertCoin;
-    }
-
-    public void setInsertCoin(int insertCoin) {
-        this.insertCoin = insertCoin;
     }
 
     public int getCredits() {
@@ -155,29 +157,11 @@ public class SlotMachine {
         SlotMachine.currentCreditsWon = currentCreditsWon;
     }
 
-    public boolean isCashOut() {
-        return cashOut;
-    }
-
-    public void setCashOut(boolean cashOut) {
-        this.cashOut = cashOut;
-    }
-
-    public static int getCoinTray() {
-        return coinTray;
-    }
-
-    public static void setCoinTray(int coinTray) {
-        SlotMachine.coinTray = coinTray;
-    }
-
     @Override
     public String toString() {
         return "SlotMachine{" +
-                "bet=(current inserted amount)= " + bet +
-                ", insertCoin=(has user inserted a coin)= " + insertCoin +
+                "your recent bet= " + bet +
                 ", \ncurrentCreditsWon=(the current round's winnings)= " + currentCreditsWon +
-                ", cashOut=(has user requested to withdraw the coinTray)= " + cashOut +
                 '}';
     }
 }

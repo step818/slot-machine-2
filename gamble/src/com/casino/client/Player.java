@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 
 class Player {
     public static void main(String[] args) throws InterruptedException {
+        //  Prints the banner
         try (BufferedReader reader = new BufferedReader(
                 new FileReader("banner.txt"))) {
             Stream<String> lines = reader.lines();
@@ -15,8 +16,10 @@ class Player {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        // Create an instance of the slot machine
         SlotMachine machine = new SlotMachine();
+        System.out.println("Welcome to the Slot Machine! You have " + machine.getCredits() + " credits.");
+        // Start the game
         machine.begin();
     }
 }
