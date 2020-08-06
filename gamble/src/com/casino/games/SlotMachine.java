@@ -41,21 +41,102 @@ public class SlotMachine {
         // Retrieve the playline result and check to see if the player has won
         currentCreditsWon  = 0;
         // The playline ArrayList looks like: { "&", "@", "?" }
-        // if player gets 3 matching
-        if (playline.get(0) == playline.get(1) && playline.get(0) == playline.get(2)) {
-            // Print the current winnings and match if 3 match
-            //Pay appropriately
-            currentCreditsWon = bet *50;
-        } else if(playline.get(0) == playline.get(1) ||  // if player gets any 2 matching
-                playline.get(1) == playline.get(2) ||
-                playline.get(0) == playline.get(2)){
-//            Print the current credits won if two matches
-            currentCreditsWon = bet*10;
-        } else {
-            // TODO:
-            // Print the current credits won if no matches
+        // If the player matches three, they will receive an automatic triple bonus (multiply bet times 3 immediately).
+        if (playline.get(0) == playline.get(1) && playline.get(0) == playline.get(2) &&
+                playline.get(0) == Symbol.AT && playline.get(1) == Symbol.AT && playline.get(2) == Symbol.AT) {
+            currentCreditsWon = bet * 6 - bet;
         }
-        setCredits((credits + currentCreditsWon - bet));
+        else if (playline.get(0) == playline.get(1) && playline.get(0) == playline.get(2) &&
+                playline.get(0) == Symbol.HASH && playline.get(1) == Symbol.HASH && playline.get(2) == Symbol.HASH) {
+            currentCreditsWon = bet * 9 - bet;
+        }
+        else if (playline.get(0) == playline.get(1) && playline.get(0) == playline.get(2) &&
+                playline.get(0) == Symbol.COLON && playline.get(1) == Symbol.COLON && playline.get(2) == Symbol.COLON) {
+            currentCreditsWon = bet * 12 - bet;
+        }
+        else if (playline.get(0) == playline.get(1) && playline.get(0) == playline.get(2) &&
+                playline.get(0) == Symbol.QUESTION && playline.get(1) == Symbol.QUESTION && playline.get(2) == Symbol.QUESTION) {
+            currentCreditsWon = bet * 12 - bet;
+        }
+        else if (playline.get(0) == playline.get(1) && playline.get(0) == playline.get(2) &&
+                playline.get(0) == Symbol.PERCENT && playline.get(1) == Symbol.PERCENT && playline.get(2) == Symbol.PERCENT) {
+            currentCreditsWon = bet * 15 - bet;
+        }
+        else if (playline.get(0) == playline.get(1) && playline.get(0) == playline.get(2) &&
+                playline.get(0) == Symbol.AMPERSAND && playline.get(1) == Symbol.AMPERSAND && playline.get(2) == Symbol.AMPERSAND) {
+            currentCreditsWon = bet * 18 - bet;
+        }
+        else if (playline.get(0) == playline.get(1) && playline.get(0) == playline.get(2) &&
+                playline.get(0) == Symbol.BANG && playline.get(1) == Symbol.BANG && playline.get(2) == Symbol.BANG) {
+            currentCreditsWon = bet * 21 - bet;
+        }
+        else if (playline.get(0) == playline.get(1) && playline.get(0) == playline.get(2) &&
+                playline.get(0) == Symbol.SEVEN && playline.get(1) == Symbol.SEVEN && playline.get(2) == Symbol.SEVEN) {
+            currentCreditsWon = bet * 24 - bet;
+        }
+        else if (playline.get(0) == playline.get(1) && playline.get(0) == playline.get(2) &&
+                playline.get(0) == Symbol.GOLD && playline.get(1) == Symbol.GOLD && playline.get(2) == Symbol.GOLD) {
+            currentCreditsWon = bet * 27 - bet;
+        }
+        else if (playline.get(0) == playline.get(1) && playline.get(0) == playline.get(2) &&
+                playline.get(0) == Symbol.DOLLAR && playline.get(1) == Symbol.DOLLAR && playline.get(2) == Symbol.DOLLAR) {
+            currentCreditsWon = bet * 300 - bet;
+        }
+        // Now we go into the algorithm when only two symbols show on the payline. If the player hits two, they will receive a (x2) bonus!
+        else if  (playline.get(0) == playline.get(1) && playline.get(0) == Symbol.AT && playline.get(1) == Symbol.AT ||
+                playline.get(1) == playline.get(2) && playline.get(1) == Symbol.AT && playline.get(2) == Symbol.AT ||
+                playline.get(0) == playline.get(2) && playline.get(0) == Symbol.AT && playline.get(2) == Symbol.AT) {
+            currentCreditsWon = bet * 4 - bet;
+        }
+        else if (playline.get(0) == playline.get(1) && playline.get(0) == Symbol.HASH && playline.get(1) == Symbol.HASH ||
+                playline.get(1) == playline.get(2) && playline.get(1) == Symbol.HASH && playline.get(2) == Symbol.HASH ||
+                playline.get(0) == playline.get(2) && playline.get(0) == Symbol.HASH && playline.get(2) == Symbol.HASH) {
+            currentCreditsWon = bet * 6 - bet;
+        }
+        else if (playline.get(0) == playline.get(1) && playline.get(0) == Symbol.COLON && playline.get(1) == Symbol.COLON ||
+                playline.get(1) == playline.get(2) && playline.get(1) == Symbol.COLON && playline.get(2) == Symbol.COLON ||
+                playline.get(0) == playline.get(2) && playline.get(0) == Symbol.COLON && playline.get(2) == Symbol.COLON) {
+            currentCreditsWon = bet * 8 - bet;
+        }
+        else if (playline.get(0) == playline.get(1) && playline.get(0) == Symbol.QUESTION && playline.get(1) == Symbol.QUESTION ||
+                playline.get(1) == playline.get(2) && playline.get(1) == Symbol.QUESTION && playline.get(2) == Symbol.QUESTION ||
+                playline.get(0) == playline.get(2) && playline.get(0) == Symbol.QUESTION && playline.get(2) == Symbol.QUESTION) {
+            currentCreditsWon = bet * 8 - bet;
+        }
+        else if (playline.get(0) == playline.get(1) && playline.get(0) == Symbol.PERCENT && playline.get(1) == Symbol.PERCENT ||
+                playline.get(1) == playline.get(2) && playline.get(1) == Symbol.PERCENT && playline.get(2) == Symbol.PERCENT ||
+                playline.get(0) == playline.get(2) && playline.get(0) == Symbol.PERCENT && playline.get(2) == Symbol.PERCENT) {
+            currentCreditsWon = bet * 10 - bet;
+        }
+        else if (playline.get(0) == playline.get(1) && playline.get(0) == Symbol.AMPERSAND && playline.get(1) == Symbol.AMPERSAND ||
+                playline.get(1) == playline.get(2) && playline.get(1) == Symbol.AMPERSAND && playline.get(2) == Symbol.AMPERSAND ||
+                playline.get(0) == playline.get(2) && playline.get(0) == Symbol.AMPERSAND && playline.get(2) == Symbol.AMPERSAND) {
+            currentCreditsWon = bet * 12 - bet;
+        }
+        else if (playline.get(0) == playline.get(1) && playline.get(0) == Symbol.BANG && playline.get(1) == Symbol.BANG ||
+                playline.get(1) == playline.get(2) && playline.get(1) == Symbol.BANG && playline.get(2) == Symbol.BANG ||
+                playline.get(0) == playline.get(2) && playline.get(0) == Symbol.BANG && playline.get(2) == Symbol.BANG) {
+            currentCreditsWon = bet * 14 - bet;
+        }
+        else if (playline.get(0) == playline.get(1) && playline.get(0) == Symbol.SEVEN && playline.get(1) == Symbol.SEVEN ||
+                playline.get(1) == playline.get(2) && playline.get(1) == Symbol.SEVEN && playline.get(2) == Symbol.SEVEN ||
+                playline.get(0) == playline.get(2) && playline.get(0) == Symbol.SEVEN && playline.get(2) == Symbol.SEVEN) {
+            currentCreditsWon = bet * 16 - bet;
+        }
+        else if (playline.get(0) == playline.get(1) && playline.get(0) == Symbol.GOLD && playline.get(1) == Symbol.GOLD ||
+                playline.get(1) == playline.get(2) && playline.get(1) == Symbol.GOLD && playline.get(2) == Symbol.GOLD ||
+                playline.get(0) == playline.get(2) && playline.get(0) == Symbol.GOLD && playline.get(2) == Symbol.GOLD) {
+            currentCreditsWon = bet * 18 - bet;
+        }
+        else if (playline.get(0) == playline.get(1) && playline.get(0) == Symbol.DOLLAR && playline.get(1) == Symbol.DOLLAR ||
+                playline.get(1) == playline.get(2) && playline.get(1) == Symbol.DOLLAR && playline.get(2) == Symbol.DOLLAR ||
+                playline.get(0) == playline.get(2) && playline.get(0) == Symbol.DOLLAR && playline.get(2) == Symbol.DOLLAR) {
+            currentCreditsWon = bet * 50 - bet;
+        }
+        else if (playline.get(0) != playline.get(1) && playline.get(1) != playline.get(2) && playline.get(0) != playline.get(2)) {
+            currentCreditsWon = currentCreditsWon - bet;
+        }
+        setCredits((credits + currentCreditsWon));
         return currentCreditsWon;
     }
 

@@ -48,6 +48,14 @@ class Reel extends SlotMachine {
         }
         return symbol;
     }
+    // ADMIN METHOD (GOD MODE)
+    public Symbol easyAT() { // Used to guarantee a triple 'AT'.
+        final int winningNumber = 0;
+        if (winningNumber == 0) {
+            symbol = Symbol.AT;
+        }
+        return symbol;
+    }
 
     // GETTER METHODS
     public int getSlotNumber() { // Provides access to 'slotNumber'.
