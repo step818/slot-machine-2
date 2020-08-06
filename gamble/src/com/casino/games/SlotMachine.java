@@ -26,8 +26,8 @@ public class SlotMachine {
             Reel reel2 = new Reel();
             Reel reel3 = new Reel();
             //  change the symbol on each reel to some random Symbol
-            Symbol symbol1 = reel1.easyJackpot();
-            Symbol symbol2 = reel2.easyJackpot();
+            Symbol symbol1 = reel1.assignSymbol();
+            Symbol symbol2 = reel2.assignSymbol();
             Symbol symbol3 = reel3.assignSymbol();
             // place each reel in to the playline list
             playline.add(symbol1);

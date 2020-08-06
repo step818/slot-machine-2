@@ -4,7 +4,7 @@ package com.casino.games;
  * The Java Math class will be utilized within Reel for its valuable 'random()' method.
  */
 
-class Reel extends SlotMachine {
+class Reel {
 
     // 'slotNumber' holds the value of the generated number upon runtime.
     // This variable is generated using Java Math's 'random()' method. By default, the 'random()' method is calculated via double.
