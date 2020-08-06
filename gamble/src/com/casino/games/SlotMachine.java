@@ -5,6 +5,8 @@ import java.util.concurrent.TimeUnit;
 
 public class SlotMachine {
     // FIELDS
+    public static final String ANSI_RED_BACKGROUND = "\u001B[41m";
+
     private static final int MAX_BET = 20;
     private static final int MIN_BET = 1;
     private static ArrayList<Symbol> playline;
@@ -143,8 +145,11 @@ public class SlotMachine {
     public boolean isValidBet(int bet) {
         if (bet >= MIN_BET && bet <= MAX_BET && bet < credits) {
             return true;
-        } else {
-            System.out.println("Invalid bet: " + bet + ". Bet must be between " + MIN_BET + " and " + MAX_BET + ".");
+        } else if(bet > credits) {
+            System.out.println("\033[0;31m" + "Invalid bet: " + bet + ". Not enough credits." + "\033[0m");
+            return false;
+        }else {
+            System.out.println("\033[0;31m" + "Invalid bet: " + bet + ". Bet must be between " + MIN_BET + " and " + MAX_BET + "." + "\033[0m");
             return false;
         }
     }
@@ -155,54 +160,57 @@ public class SlotMachine {
 //        TODO: Save player name. System.out.println("Please enter your name?");
 //        String playerName = scan.nextLine();
         // Variable to keep the while loop going
-        String keepPlaying = "Y";
+        String keepPlaying = "";
         while(this.getCredits() > 0  && !keepPlaying.equals("E")) {
             System.out.println("Enter 'bet' between (1-20). Then hit Enter to pull crank.");
             // scan bet from player
-//            int bet = scan.nextInt();
             // Check If the 'bet' is an integer.
-            if(scan.hasNextInt()) {
-                int bet = scan.nextInt();
-                // If not integer, redirect the user to Enter valid bet
-                // Spin the reels
-                if(!isValidBet(bet)) {
-                    // Redirect player to enter bet
-                    this.begin();
-                }
-                // TODO: Fix bug when user input is out of bounds and Exits app
-                ArrayList<Symbol> currentSpin = this.spinReel(bet);
-
-                System.out.println("You bet: " + bet + " credits...");
-                System.out.println("Reels are spinning...");
-                System.out.print("     ");
-                TimeUnit.SECONDS.sleep(2);
-                for (Symbol sym: currentSpin) {
-                    System.out.print(sym + " ");
-                    TimeUnit.MILLISECONDS.sleep(750);
-                }
-                System.out.println();
-                TimeUnit.SECONDS.sleep(1);
-                // Display the player's current credits, most recent bet, an
-                printWinnings();
-                TimeUnit.MILLISECONDS.sleep(500);
-                System.out.println("Your total coins: " + this.getCredits());
-                TimeUnit.MILLISECONDS.sleep(500);
-                System.out.println("Type any key and hit Enter to continue, or type 'E' to EXIT");
-                keepPlaying = scan.next();
-
-            } else {
-                System.out.println("Invalid input. Only accepts integers between 1 - 20");
+            int bet = scan.nextInt();
+            // If not integer, redirect the user to Enter valid bet
+            if(!isValidBet(bet)) {
                 // Redirect player to enter bet
-                this.begin();
+                System.out.println("\033[0;31m"+"Out of bounds! Your bet is set to MAX_BET = 20"+"\033[0m");
+                bet = MAX_BET;
             }
+            // Spin the reels
+            ArrayList<Symbol> currentSpin = this.spinReel(bet);
+            System.out.println("You bet: " + bet + " credits...");
+            System.out.println("Reels are spinning...");
+            System.out.print("     ");
+            TimeUnit.SECONDS.sleep(2);
+            // Display the outcome
+            for (Symbol sym: currentSpin) {
+                System.out.print(sym + " ");
+                TimeUnit.MILLISECONDS.sleep(750);
+            }
+            System.out.println();
+            TimeUnit.SECONDS.sleep(1);
+            // Display the player's current credits, most recent bet, an
+            printWinnings();
+            TimeUnit.MILLISECONDS.sleep(500);
+            System.out.println("Your total coins: " +"\u001B[32m"+ this.getCredits() + "\u001B[0m");
+            TimeUnit.MILLISECONDS.sleep(500);
+            System.out.println("\033[0;34m"+"If you would like to continue, hit any key and Enter."+"\033[0m");
+            System.out.println("\033[0;35m"+"If you would like to quit, hit 'E' to Exit."+"\033[0m");
+            keepPlaying = scan.next();
         }
         // Game over when player loses all credits
         if(this.getCredits() == 0) {
-            System.out.println("You lost all your credits. GAME OVERRRRRRRRRRRR!!!!!!!!!!!!");
+            System.out.println("You lost all your credits." + "\033[0;31m" + " GAME OVERRRRRRRRRRRR!!!!!!!!!!!!" + "\033[0m");
         }
-        System.out.println("Player has ended the machine. Good Bye!");
+        System.out.println("Player has ended the machine. " + "\033[0;32m" + "You now have " + credits + " credits." + "\033[0m" + " Good Bye!");
         scan.close();
     }
+
+    public void getPayoutChart () { // Used to display the payout chart.
+        System.out.println("\u001B[34m"+"Here is your payout chart:"+"\u001B[0m");
+//        System.out.println();
+        System.out.println("\u001B[36m"+"Ratio: $1 = 1 Credit. Calculated by (bet x payout - bet)");
+//        System.out.println();
+        System.out.println("For landing two symbols on the payline: [@ = 4] [# = 6] [: = 8] [? = 8] [% = 10] [& = 12] [! = 14] [7 = 16] [G = 18] [$ = 100]");
+//        System.out.println();
+        System.out.println("For landing three symbols on the payline: [@ = 6] [# = 9] [: = 12] [? = 12] [% = 15] [& = 18] [! = 21] [7 = 24] [G = 27] [$ = 900]"+"\u001B[0m");
+        System.out.println(); }
     // TODO: Take number of matches and print matches credits won
     public void printWinnings() {
         System.out.println("You won: " + getCurrentCreditsWon() + " coins");

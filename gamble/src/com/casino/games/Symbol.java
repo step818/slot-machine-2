@@ -15,16 +15,16 @@ package com.casino.games;
  */
 
 public enum Symbol { // Each Enum value is assigned to a special character that will display on the console window when the Reel class is utilized.
-    AT("@"),
-    HASH("#"),
-    COLON(":"),
-    QUESTION("?"),
-    PERCENT("%"),
-    AMPERSAND("&"),
-    BANG("!"),
-    SEVEN("7"),
-    GOLD("G"),
-    DOLLAR("$");
+    AT("\033[1;31m" + "[@]" + "\033[0m"),
+    HASH("\033[1;32m" + "[#]" + "\033[0m"),
+    COLON("\033[1;33m" + "[:]" + "\033[0m"),
+    QUESTION("\033[1;34m" + "[?]" + "\033[0m"),
+    PERCENT("\033[1;35m" + "[%]" + "\033[0m"),
+    AMPERSAND("\033[1;36m" + "[&]" + "\033[0m"),
+    BANG("\033[1;96m" + "[!]" + "\033[0m"),
+    SEVEN("\033[1;91m" +"[7]" + "\033[0m"),
+    GOLD("\033[1;93m" + "[G]" + "\033[0m"),
+    DOLLAR("\033[0;103m" + "\033[1;90m" + "[$]" + "\033[0m");
 
     private String charAssignment; // Variable to hold the assigned character.
 

@@ -1,6 +1,5 @@
 package com.casino.client;
 import com.casino.games.SlotMachine;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -18,7 +17,8 @@ class Player {
         }
         // Create an instance of the slot machine
         SlotMachine machine = new SlotMachine();
-        System.out.println("Welcome to the Slot Machine! You have " + machine.getCredits() + " credits.");
+        System.out.println("Welcome to the Slot Machine! You have "+ "\u001B[32m"+ machine.getCredits() + "\u001B[0m" + " credits.");
+        machine.getPayoutChart();
         // Start the game
         machine.begin();
     }
