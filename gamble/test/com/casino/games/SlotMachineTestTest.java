@@ -16,7 +16,7 @@ class SlotMachineTestTest {
     }
 
     @Test
-    void testSpinReel() {
+    void testSpinReel() throws InterruptedException {
         ArrayList<Symbol> result = game.spinReel(6);
         assertNotNull(result);
         assertEquals(3, result.size());
@@ -26,7 +26,7 @@ class SlotMachineTestTest {
     }
 
     @Test
-    void testCheckWinnings() {
+    void testCheckWinnings() throws InterruptedException {
         ArrayList<Symbol> display = new ArrayList<>();
         display.add(Symbol.AT);
         display.add(Symbol.AT);

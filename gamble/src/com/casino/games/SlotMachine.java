@@ -16,7 +16,7 @@ public class SlotMachine {
     private int bet = 0;
 
     //BUSINESS METHODS
-    public ArrayList<Symbol> spinReel(int mybet) {
+    public ArrayList<Symbol> spinReel(int mybet) throws InterruptedException {
         //  create a list that will be the playline
         playline = new ArrayList<>();
         if (isValidBet(mybet)) {
@@ -26,8 +26,8 @@ public class SlotMachine {
             Reel reel2 = new Reel();
             Reel reel3 = new Reel();
             //  change the symbol on each reel to some random Symbol
-            Symbol symbol1 = reel1.assignSymbol();
-            Symbol symbol2 = reel2.assignSymbol();
+            Symbol symbol1 = reel1.easyJackpot();
+            Symbol symbol2 = reel2.easyJackpot();
             Symbol symbol3 = reel3.assignSymbol();
             // place each reel in to the playline list
             playline.add(symbol1);
@@ -39,7 +39,7 @@ public class SlotMachine {
         return playline;
     }
 
-    public int checkWinnings(ArrayList<Symbol> playline) {
+    public int checkWinnings(ArrayList<Symbol> playline) throws InterruptedException {
         // Retrieve the playline result and check to see if the player has won
         currentCreditsWon  = 0;
         // The playline ArrayList looks like: { "&", "@", "?" }
@@ -134,6 +134,8 @@ public class SlotMachine {
                 playline.get(1) == playline.get(2) && playline.get(1) == Symbol.DOLLAR && playline.get(2) == Symbol.DOLLAR ||
                 playline.get(0) == playline.get(2) && playline.get(0) == Symbol.DOLLAR && playline.get(2) == Symbol.DOLLAR) {
             currentCreditsWon = bet * 50 - bet;
+            TimeUnit.SECONDS.sleep(7);
+            System.out.println("JACKPOT!!! The machine EXPLODES! You collect your money and run before the casino attempts to tell you that it was a bug.");
         }
         else if (playline.get(0) != playline.get(1) && playline.get(1) != playline.get(2) && playline.get(0) != playline.get(2)) {
             currentCreditsWon = currentCreditsWon - bet;
@@ -183,6 +185,7 @@ public class SlotMachine {
                 System.out.print(sym + " ");
                 TimeUnit.MILLISECONDS.sleep(750);
             }
+            checkForJackpot();
             System.out.println();
             TimeUnit.SECONDS.sleep(1);
             // Display the player's current credits, most recent bet, an
@@ -200,6 +203,27 @@ public class SlotMachine {
         }
         System.out.println("Player has ended the machine. " + "\033[0;32m" + "You now have " + credits + " credits." + "\033[0m" + " Good Bye!");
         scan.close();
+    }
+
+    public void checkForJackpot() {
+        if (playline.get(0) == playline.get(1) && playline.get(0) == playline.get(2) && playline.get(0) == Symbol.DOLLAR && playline.get(1) == Symbol.DOLLAR && playline.get(2) == Symbol.DOLLAR) {
+            try {
+                TimeUnit.SECONDS.sleep(5);
+                System.out.println("JACKPOT!!! The machine EXPLODES! You collect your money and run before the casino attempts to tell you that it was a bug.");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+//        else if (playline.get(0) == playline.get(1) && playline.get(0) == Symbol.DOLLAR && playline.get(1) == Symbol.DOLLAR ||
+//        playline.get(1) == playline.get(2) && playline.get(1) == Symbol.DOLLAR && playline.get(2) == Symbol.DOLLAR ||
+//        playline.get(0) == playline.get(2) && playline.get(0) == Symbol.DOLLAR && playline.get(2) == Symbol.DOLLAR) {
+//            try {
+//                TimeUnit.SECONDS.sleep(5);
+//                System.out.println("Mini Jackpot! Congratulations! Coins go everywhere!");
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 
     public void getPayoutChart () { // Used to display the payout chart.
